@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>ABC Secondary School - Assignment Portal</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f5f5f5;
+                margin: 0;
+                min-height: 100vh;
+            }
+            
+            .main-container {
+                background-color: #ffffff;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                margin: 30px auto;
+                padding: 20px;
+                max-width: 1200px;
+            }
+            
+            .sidebar {
+                background-color: #ffffff;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                padding: 20px;
+            }
+            
+            .content-area {
+                background-color: #ffffff;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                padding: 20px;
+            }
+            
+            .header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            
+            .logo {
+                margin-right: 15px;
+            }
+            
+            .portal-title {
+                font-size: 24px;
+                font-family: 'Arial Black', Arial, sans-serif;
+                color: #475E95;
+                margin: 0;
+            }
+            
+            .school-name {
+                font-weight: bold;
+                font-size: 24px;
+                font-family: 'Arial Black', Arial, sans-serif;
+                color: #003C84;
+            }
+            
+            .nav-link {
+                color: #333;
+                padding: 10px 15px;
+                border-radius: 5px;
+                margin-bottom: 5px;
+                transition: all 0.3s;
+            }
+            
+            .nav-link:hover, .nav-link.active {
+                background-color: #007BFF;
+                color: white;
+            }
+            
+            .nav-link i {
+                margin-right: 10px;
+                width: 20px;
+                text-align: center;
+            }
+            
+            .card {
+                border: none;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                margin-bottom: 20px;
+            }
+            
+            .card-header {
+                background-color: #f8f9fa;
+                border-bottom: 1px solid #eee;
+                font-weight: bold;
+            }
+            
+            .user-info {
+                display: flex;
+                align-items: center;
+                padding: 15px;
+                border-bottom: 1px solid #eee;
+                margin-bottom: 15px;
+            }
+            
+            .user-avatar {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background-color: #007BFF;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+                margin-right: 15px;
+            }
+            
+            .language-select {
+                cursor: pointer;
+                position: relative;
+            }
+            
+            .language-list {
+                display: none;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: white;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                z-index: 10;
+                min-width: 150px;
+            }
+            
+            .language-list div {
+                padding: 5px 10px;
+                cursor: pointer;
+            }
+            
+            .language-list div:hover {
+                background-color: #f0f0f0;
+            }
+            
+            .active {
+                display: block;
+            }
+            
+            .checked {
+                font-weight: bold;
+                color: #007BFF;
+            }
+            
+            .btn-primary {
+                background-color: #007BFF;
+            }
+            
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+            
+            .badge-due-soon {
+                background-color: #ffc107;
+                color: #212529;
+                padding: 5px 10px;
+                border-radius: 4px;
+            }
+            
+            .badge-overdue {
+                background-color: #dc3545;
+                color: white;
+                padding: 5px 10px;
+                border-radius: 4px;
+            }
+            
+            .badge-submitted {
+                background-color: #17a2b8;
+                color: white;
+                padding: 5px 10px;
+                border-radius: 4px;
+            }
+            
+            .badge-graded {
+                background-color: #28a745;
+                color: white;
+                padding: 5px 10px;
+                border-radius: 4px;
+            }
+            
+            @media (max-width: 768px) {
+                .sidebar {
+                    margin-bottom: 20px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="main-container">
+            <div class="header">
+                <div class="logo">
+                    <img src="https://via.placeholder.com/80" alt="School Logo" width="80px">
+                </div>
+                <div>
+                    <h2 class="portal-title" id="portal-title">Assignment Portal</h2>
+                    <div class="school-name" id="school-name">ABC Secondary School</div>
+                </div>
+                <div class="ms-auto language-select" onclick="toggleLanguageList(event)">
+                    <span id="selected-language">
+                        <img id="current-flag" src="https://flagcdn.com/us.svg" alt="English (US)" width="20"> 
+                        <span id="current-language-text">English (US) <span class="checked">v</span></span>
+                    </span>
+                    <div class="language-list" id="language-list">
+                        <div onclick="setLanguage('en-us')">
+                            <img src="https://flagcdn.com/us.svg" alt="English (US)" width="20"> English (US)
+                        </div>
+                        <div onclick="setLanguage('en-uk')">
+                            <img src="https://flagcdn.com/gb.svg" alt="English (UK)" width="20"> English (UK)
+                        </div>
+                        <div onclick="setLanguage('zh-tw')">
+                            <img src="https://flagcdn.com/hk.svg" alt="Chinese (Traditional)" width="20"> 中文(繁體)
+                        </div>
+                        <div onclick="setLanguage('zh-cn')">
+                            <img src="https://flagcdn.com/cn.svg" alt="Chinese (Simplified)" width="20"> 中文(简体)
+                        </div>
+                        <div onclick="setLanguage('ko')">
+                            <img src="https://flagcdn.com/kr.svg" alt="Korean" width="20"> 한국어
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="sidebar">
+                        <div class="user-info">
+                            <div class="user-avatar" id="user-avatar">JS</div>
+                            <div>
+                                <div class="fw-bold" id="user-name">John Smith</div>
+                                <div class="small text-muted" id="user-role">Student - 6A</div>
+                            </div>
+                        </div>
+                        
+                        <div class="nav flex-column" id="sidebar-menu">
+                            <a href="#" class="nav-link active" onclick="loadDashboard()">
+                                <i class="fas fa-home"></i> <span id="menu-dashboard">Dashboard</span>
+                            </a>
+                            <a href="#" class="nav-link" onclick="loadAssignments()">
+                                <i class="fas fa-tasks"></i> <span id="menu-assignments">Assignments</span>
+                            </a>
+                            <a href="#" class="nav-link" onclick="loadSubmissions()">
+                                <i class="fas fa-file-upload"></i> <span id="menu-submissions">My Submissions</span>
+                            </a>
+                            <a href="#" class="nav-link" onclick="loadGrades()">
+                                <i class="fas fa-chart-bar"></i> <span id="menu-grades">My Grades</span>
+                            </a>
+                            <div id="teacher-menu" style="display: none;">
+                                <hr>
+                                <a href="#" class="nav-link" onclick="loadManageAssignments()">
+                                    <i class="fas fa-clipboard-list"></i> <span id="menu-manage-assignments">Manage Assignments</span>
+                                </a>
+                                <a href="#" class="nav-link" onclick="loadGradeSubmissions()">
+                                    <i class="fas fa-check-square"></i> <span id="menu-grade-submissions">Grade Submissions</span>
+                                </a>
+                                <a href="#" class="nav-link" onclick="loadReports()">
+                                    <i class="fas fa-chart-line"></i> <span id="menu-reports">Reports</span>
+                                </a>
+                            </div>
+                            <div id="admin-menu" style="display: none;">
+                                <hr>
+                                <a href="#" class="nav-link" onclick="loadUserManagement()">
+                                    <i class="fas fa-users-cog"></i> <span id="menu-user-management">User Management</span>
+                                </a>
+                                <a href="#" class="nav-link" onclick="loadSystemSettings()">
+                                    <i class="fas fa-cog"></i> <span id="menu-system-settings">System Settings</span>
+                                </a>
+                            </div>
+                            <hr>
+                            <a href="#" class="nav-link" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i> <span id="menu-logout">Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-9">
+                    <div class="content-area">
+                        <h3 id="page-title">Dashboard</h3>
+                        <div id="main-content-area">
+                            <!-- Content will be loaded here dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"
+        ></script>
+        
+        <script>
+            // Current user information (would be loaded from server in a real application)
+            let currentUser = {
+                sid: 'S12345678',
+                name: 'John Smith',
+                chineseName: '陳大文',
+                className: '6A',
+                classNo: 101,
+                role: 1, // 1=Student, 2=Class Monitor, 3=Subject Rep, 4=Teacher, 5=Panel Head, 6=Admin
+                initials: 'JS'
+            };
+            
+            // Translations for multilingual support
+            const translations = {
+                "en-us": {
+                    "portalTitle": "Assignment Portal",
+                    "schoolName": "ABC Secondary School",
+                    "dashboard": "Dashboard",
+                    "assignments": "Assignments",
+                    "submissions": "My Submissions",
+                    "grades": "My Grades",
+                    "manageAssignments": "Manage Assignments",
+                    "gradeSubmissions": "Grade Submissions",
+                    "reports": "Reports",
+                    "userManagement": "User Management",
+                    "systemSettings": "System Settings",
+                    "logout": "Logout",
+                    "student": "Student",
+                    "classMonitor": "Class Monitor",
+                    "subjectRep": "Subject Representative",
+                    "teacher": "Teacher",
+                    "panelHead": "Panel Head",
+                    "admin": "Admin"
+                }
+            };
+            
+            // Initialize the application
+            document.addEventListener('DOMContentLoaded', function() {
+                // Set up user interface based on role
+                setupUserInterface();
+                
+                // Load dashboard content by default
+                loadDashboard();
+            });
+            
+            function setupUserInterface() {
+                // Set user information
+                document.getElementById('user-avatar').innerText = currentUser.initials;
+                document.getElementById('user-name').innerText = currentUser.name;
+                
+                // Set role text
+                let roleText = '';
+                switch(currentUser.role) {
+                    case 1: roleText = 'Student'; break;
+                    case 2: roleText = 'Class Monitor'; break;
+                    case 3: roleText = 'Subject Representative'; break;
+                    case 4: roleText = 'Teacher'; break;
+                    case 5: roleText = 'Panel Head'; break;
+                    case 6: roleText = 'Admin'; break;
+                }
+                
+                document.getElementById('user-role').innerText = roleText + (currentUser.role <= 3 ? ' - ' + currentUser.className : '');
+                
+                // Show/hide menus based on role
+                if (currentUser.role >= 4) { // Teacher, Panel Head
+                    document.getElementById('teacher-menu').style.display = 'block';
+                }
+                
+                if (currentUser.role >= 6) { // Admin
+                    document.getElementById('admin-menu').style.display = 'block';
+                }
+            }
+            
+            // Language functions
+            function toggleLanguageList(event) {
+                event.stopPropagation();
+                const list = document.getElementById("language-list");
+                list.classList.toggle("active");
+            }
+            
+            function setLanguage(lang) {
+                // Implementation would go here
+                document.getElementById("language-list").classList.remove("active");
+            }
+            
+            // Close the language list if the user clicks outside of it
+            window.onclick = function(event) {
+                const list = document.getElementById("language-list");
+                if (list.classList.contains('active') && !event.target.closest('.language-select')) {
+                    list.classList.remove('active');
+                }
+            }
+            
+            // Update active menu item
+            function updateActiveMenuItem(menuItemId) {
+                // Remove active class from all menu items
+                const menuItems = document.querySelectorAll('#sidebar-menu .nav-link');
+                menuItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Add active class to selected menu item
+                const selectedItem = document.getElementById(menuItemId);
+                if (selectedItem) {
+                    selectedItem.classList.add('active');
+                }
+            }
+            
+            // Page loading functions
+            function loadDashboard() {
+                document.getElementById('page-title').textContent = 'Dashboard';
+                updateActiveMenuItem('dashboard-link');
+                
+                // Get upcoming assignments and recent submissions
+                const content = `
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card mb-4">
+                                <div class="card-header">Upcoming Assignments</div>
+                                <div class="card-body">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">Mathematics Assignment 3</h5>
+                                                <span class="badge-due-soon">Due in 5 days</span>
+                                            </div>
+                                            <p class="mb-1">Complete exercises 5-10 from Chapter 7</p>
+                                            <small>Mr. Wong - Due on 20/05/2023</small>
+                                            <div class="mt-2">
+                                                <button class="btn btn-sm btn-primary" onclick="viewAssignment(101)">View Details</button>
+                                                <button class="btn btn-sm btn-success" onclick="submitAssignment(101)">Submit Assignment</button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="list-group-item">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">Chinese Reading Comprehension</h5>
+                                                <span class="badge-overdue">Overdue by 2 days</span>
+                                            </div>
+                                            <p class="mb-1">Read the passage and answer questions 1-5</p>
+                                            <small>Ms. Lee - Due on 13/05/2023</small>
+                                            <div class="mt-2">
+                                                <button class="btn btn-sm btn-primary" onclick="viewAssignment(102)">View Details</button>
+                                                <button class="btn btn-sm btn-success" onclick="submitAssignment(102)">Submit Assignment</button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="list-group-item">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">Science Lab Report</h5>
+                                                <span class="badge-due-soon">Due tomorrow</span>
+                                            </div>
+                                            <p class="mb-1">Write a report on the photosynthesis experiment</p>
+                                            <small>Dr. Lam - Due on 16/05/2023</small>
+                                            <div class="mt-2">
+                                                <button class="btn btn-sm btn-primary" onclick="viewAssignment(103)">View Details</button>
+                                                <button class="btn btn-sm btn-success" onclick="submitAssignment(103)">Submit Assignment</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-end">
+                                    <a href="#" onclick="loadAssignments()" class="btn btn-sm btn-primary">View All Assignments</a>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">Recent Submissions</div>
+                                <div class="card-body">
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">English Essay</h5>
+                                                <span class="badge-submitted">Submitted</span>
+                                            </div>
+                                            <p class="mb-1">Write an essay about your favorite book</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small>Submitted on 12/05/2023 - Ms. Johnson</small>
+                                                <div>
+                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewSubmission(201)">View Submission</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="list-group-item">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">Mathematics Quiz</h5>
+                                                <span class="badge-graded">Graded: A</span>
+                                            </div>
+                                            <p class="mb-1">Complete the online quiz on algebra</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small>Submitted on 08/05/2023 - Mr. Wong</small>
+                                                <div>
+                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewSubmission(202)">View Submission</button>
+                                                    <button class="btn btn-sm btn-outline-success" onclick="viewFeedback(202)">View Feedback</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="list-group-item">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">History Project</h5>
+                                                <span class="badge-graded">Graded: A-</span>
+                                            </div>
+                                            <p class="mb-1">Research and present on a historical figure</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small>Submitted on 05/05/2023 - Mr. Cheung</small>
+                                                <div>
+                                                    <button class="btn btn-sm btn-outline-primary" onclick="viewSubmission(203)">View Submission</button>
+                                                    <button class="btn btn-sm btn-outline-success" onclick="viewFeedback(203)">View Feedback</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-end">
+                                    <a href="#" onclick="loadSubmissions()" class="btn btn-sm btn-primary">View All Submissions</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <div class="card-header">Assignment Statistics</div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <h6>Pending Assignments</h6>
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 30%;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="10">3</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6>Submitted Assignments</h6>
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: 20%;" aria-valuenow="2" aria-valuemin="0" aria-valuemax="10">2</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6>Graded Assignments</h6>
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 50%;" aria-valuenow="5" aria-valuemin="0" aria-valuemax="10">5</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">Calendar</div>
+                                <div class="card-body">
+                                    <div class="alert alert-info">
+                                        <strong>Today:</strong> 15 May 2023
+                                    </div>
+                                    <h6>Upcoming Due Dates:</h6>
+                                    <ul class="list-group">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Science Lab Report
+                                            <span class="badge bg-warning text-dark">16 May</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Mathematics Assignment 3
+                                            <span class="badge bg-primary">20 May</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            English Essay
+                                            <span class="badge bg-primary">25 May</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="card mt-4">
+                                <div class="card-header">Quick Actions</div>
+                                <div class="card-body">
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-primary" onclick="submitAssignment()">Submit New Assignment</button>
+                                        <button class="btn btn-outline-secondary" onclick="checkGrades()">Check Recent Grades</button>
+                                        <button class="btn btn-outline-secondary" onclick="contactTeacher()">Contact Teacher</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('main-content-area').innerHTML = content;
+            }
+            
+            function loadAssignments() {
+                document.getElementById('page-title').textContent = 'Assignments';
+                updateActiveMenuItem('assignments-link');
+                
+                const content = `
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search assignments...">
+                                <button class="btn btn-outline-secondary" type="button">Search</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex justify-content-end">
+                                <select class="form-select me-2" style="width: auto;">
+                                    <option value="all">All Subjects</option>
+                                    <option value="math">Mathematics</option>
+                                    <option value="english">English</option>
+                                    <option value="science">Science</option>
+                                    <option value="history">History</option>
+                                    <option value="chinese">Chinese</option>
+                                </select>
+                                <select class="form-select" style="width: auto;">
+                                    <option value="all">All Status</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="submitted">Submitted</option>
+                                    <option value="graded">Graded</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span>Current Assignments</span>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary active">Card View</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">List View</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-header d-flex justify-content-between">
+                                            <span>Mathematics</span>
+                                            <span class="badge-due-soon">Due in 5 days</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">Mathematics Assignment 3</h5>
+                                            <p class="card-text">Complete exercises 5-10 from Chapter 7</p>
+                                            <p class="card-text"><small class="text-muted">Mr. Wong - Due on 20/05/2023</small></p>
+                                        </div>
+                                        <div class="card-footer bg-transparent">
+                                            <button class="btn btn-sm btn-primary w-100" onclick="viewAssignment(101)">View Details</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-header d-flex justify-content-between">
+                                            <span>Chinese</span>
+                                            <span class="badge-overdue">Overdue by 2 days</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">Chinese Reading Comprehension</h5>
+                                            <p class="card-text">Read the passage an

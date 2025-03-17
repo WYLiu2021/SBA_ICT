@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('./media/background.png'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            backdrop-filter: blur(2.5px);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(25px);
+            text-align: left;
+            width: 420px;
+            position: relative;
+        }
+        .language-select {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 20px;
+        }
+        .logo {
+            margin-right: 15px; 
+        }
+        .portal-title {
+            font-size: 24px;
+            font-family: 'Arial Black', Arial, sans-serif;
+            color: #475E95;
+        }
+        .school-name {
+            font-weight: bold;
+            font-size: 24px;
+            font-family: 'Arial Black', Arial, sans-serif;
+            color: #003C84;
+            margin: 20px 0;
+        }
+        .sign-in-text {
+            font-weight: bold;
+            font-size: 24px;
+            font-family: 'Arial Black', Arial, sans-serif;
+            margin: 5px 0;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .remember-me input {
+            margin-right: 5px;
+        }
+        .language-list {
+            display: none;
+            position: absolute;
+            top: 35px;
+            right: 15px;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            z-index: 10;
+        }
+        .language-list div {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .language-list div:hover {
+            background-color: #f0f0f0;
+        }
+        .active {
+            display: block; 
+        }
+        .checked {
+            font-weight: bold;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="language-select" onclick="toggleLanguageList(event)">
+            <span id="selected-language">
+                <img id="current-flag" src="https://flagcdn.com/us.svg" alt="English (US)" width="20"> 
+                <span id="current-language-text">English (US) <span class="checked">v</span></span>
+            </span>
+        </div>
+        <div class="language-list" id="language-list">
+            <div onclick="setLanguage('en-us')">
+                <img src="https://flagcdn.com/us.svg" alt="English (US)" width="20"> English (US)
+            </div>
+            <div onclick="setLanguage('en-uk')">
+                <img src="https://flagcdn.com/gb.svg" alt="English (UK)" width="20"> English (UK)
+            </div>
+            <div onclick="setLanguage('zh-tw')">
+                <img src="https://flagcdn.com/hk.svg" alt="Chinese (Traditional)" width="20"> 中文(繁體)
+            </div>
+            <div onclick="setLanguage('zh-cn')">
+                <img src="https://flagcdn.com/sg.svg" alt="Chinese (Simplified)" width="20"> 中文(简体)
+            </div>
+            <div onclick="setLanguage('ko')">
+                <img src="https://flagcdn.com/kr.svg" alt="Korean" width="20"> 한국어
+            </div>
+        </div>
+        <div class="header">
+            <div class="logo">
+                <img src="./media/school_logo.png" alt="School Logo" width="100px"> 
+            </div>
+            <h2 id="portal-title" class="portal-title">Assignment Portal</h2>
+        </div>
+        
+        <div id="school-name" class="school-name">ABC Secondary School</div>
+        <div id="sign-in-text" class="sign-in-text">Sign In</div> 
+        <form>
+            <label for="username" id="username-label">Username</label>
+            <input type="text" id="username" name="username" class="form-control" required>
+            <label for="password" id="password-label">Password</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+            <div class="remember-me">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember Me</label>
+            </div>
+            <button type="submit" class="btn btn-primary" id="sign-in-button">Sign In</button>
+            <p><a href="#" id="forgot-password">Forgot password?</a></p>
+        </form>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const translations = {
+            "en-us": {
+                "portalTitle": "Assignment Portal",
+                "schoolName": "ABC Secondary School",
+                "signInText": "Sign In",
+                "usernameLabel": "Username",
+                "passwordLabel": "Password",
+                "rememberMe": "Remember Me",
+                "forgotPassword": "Forgot password?"
+            },
+            "en-uk": {
+                "portalTitle": "Assignment Portal",
+                "schoolName": "ABC Secondary School",
+                "signInText": "Sign In",
+                "usernameLabel": "Username",
+                "passwordLabel": "Password",
+                "rememberMe": "Remember Me",
+                "forgotPassword": "Forgot password?"
+            },
+            "zh-tw": {
+                "portalTitle": "作業入口網站",
+                "schoolName": "ABC 中學",
+                "signInText": "登入",
+                "usernameLabel": "用戶名",
+                "passwordLabel": "密碼",
+                "rememberMe": "記住我",
+                "forgotPassword": "忘記密碼？"
+            },
+            "zh-cn": {
+                "portalTitle": "作业门户",
+                "schoolName": "ABC 中学",
+                "signInText": "登录",
+                "usernameLabel": "用户名",
+                "passwordLabel": "密码",
+                "rememberMe": "记住我",
+                "forgotPassword": "忘记密码？"
+            },
+            "ko": {
+                "portalTitle": "과제 포털",
+                "schoolName": "ABC 중학교",
+                "signInText": "로그인",
+                "usernameLabel": "사용자 이름",
+                "passwordLabel": "비밀번호",
+                "rememberMe": "내 정보 기억하기",
+                "forgotPassword": "비밀번호를 잊으셨나요?"
+            }
+        };
+
+        function toggleLanguageList(event) {
+            event.stopPropagation(); // Prevent click from bubbling up
+            const list = document.getElementById("language-list");
+            list.classList.toggle("active"); // Toggle active class for visibility
+        }
+
+        function setLanguage(lang) {
+            changeLanguage(lang);
+            document.getElementById("language-list").classList.remove("active"); // Hide the list after selection
+        }
+
+        function changeLanguage(lang) {
+            document.getElementById("portal-title").innerText = translations[lang].portalTitle;
+            document.getElementById("school-name").innerText = translations[lang].schoolName;
+            document.getElementById("sign-in-text").innerText = translations[lang].signInText;
+            document.getElementById("username-label").innerText = translations[lang].usernameLabel;
+            document.getElementById("password-label").innerText = translations[lang].passwordLabel;
+            document.querySelector('.remember-me label').innerText = translations[lang].rememberMe;
+            document.getElementById("forgot-password").innerText = translations[lang].forgotPassword;
+            document.getElementById("sign-in-button").innerText = translations[lang].signInText; // Update button text
+            
+            // Update flag and current language text
+            const flagImg = document.getElementById("current-flag");
+            const languageText = document.getElementById("current-language-text");
+            switch (lang) {
+                case "en-us":
+                    flagImg.src = "https://flagcdn.com/us.svg";
+                    languageText.innerText = "English (US) v";
+                    break;
+                case "en-uk":
+                    flagImg.src = "https://flagcdn.com/gb.svg";
+                    languageText.innerText = "English (UK) v";
+                    break;
+                case "zh-tw":
+                    flagImg.src = "https://flagcdn.com/hk.svg";
+                    languageText.innerText = "中文(繁體) v";
+                    break;
+                case "zh-cn":
+                    flagImg.src = "https://flagcdn.com/sg.svg";
+                    languageText.innerText = "中文(简体) v";
+                    break;
+                case "ko":
+                    flagImg.src = "https://flagcdn.com/kr.svg";
+                    languageText.innerText = "한국어 v";
+                    break;
+            }
+        }
+
+        // Close the language list if the user clicks outside of it
+        window.onclick = function(event) {
+            const list = document.getElementById("language-list");
+            if (list.classList.contains('active') && !event.target.closest('.language-select')) {
+                list.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
